@@ -36,6 +36,9 @@ import java.util.Arrays;
 import java.util.Set;
 
 /**
+ *
+ * ClassPathBeanDefinitionScanner将会通过"basePackage, 注解类, 标记接口"注册mapper到spring
+ *
  * A {@link ClassPathBeanDefinitionScanner} that registers Mappers by
  * {@code basePackage}, {@code annotationClass}, or {@code markerInterface}. If
  * an {@code annotationClass} and/or {@code markerInterface} is specified, only
@@ -165,6 +168,7 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
    */
   @Override
   public Set<BeanDefinitionHolder> doScan(String... basePackages) {
+    // 调用父类方法, 扫描基本包, 获取bean定义
     Set<BeanDefinitionHolder> beanDefinitions = super.doScan(basePackages);
 
     if (beanDefinitions.isEmpty()) {
@@ -176,6 +180,10 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
     return beanDefinitions;
   }
 
+
+  // 主要是通过处理BeanDefinitions来实现对应的生成对应的Mapper代理类
+  // private Class<? extends MapperFactoryBean> mapperFactoryBeanClass = MapperFactoryBean.class;
+  // definition.setBeanClass(this.mapperFactoryBeanClass);
   private void processBeanDefinitions(Set<BeanDefinitionHolder> beanDefinitions) {
     GenericBeanDefinition definition;
     for (BeanDefinitionHolder holder : beanDefinitions) {
@@ -184,6 +192,7 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
       LOGGER.debug(() -> "Creating MapperFactoryBean with name '" + holder.getBeanName()
           + "' and '" + beanClassName + "' mapperInterface");
 
+      // mapper接口, 实际的类, 设置为mapperFactoryBean
       // the mapper interface is the original class of the bean
       // but, the actual class of the bean is MapperFactoryBean
       definition.getConstructorArgumentValues().addGenericArgumentValue(beanClassName); // issue #59

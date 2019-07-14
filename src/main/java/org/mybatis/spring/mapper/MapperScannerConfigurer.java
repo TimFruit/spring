@@ -40,6 +40,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.StringUtils;
 
 /**
+ * 从基本包中循环查找接口类(只查找接口类), 将mapper接口当做"MapperFactoryBean"注册到bean定义注册表中
+ *
+ *
  * BeanDefinitionRegistryPostProcessor that searches recursively starting from a base package for
  * interfaces and registers them as {@code MapperFactoryBean}. Note that only interfaces with at
  * least one method will be registered; concrete classes will be ignored.
@@ -90,6 +93,10 @@ import org.springframework.util.StringUtils;
  * @see MapperFactoryBean
  * @see ClassPathMapperScanner
  */
+
+// 从basePackage中扫描mapper
+
+
 public class MapperScannerConfigurer implements BeanDefinitionRegistryPostProcessor, InitializingBean, ApplicationContextAware, BeanNameAware {
 
   private String basePackage;
@@ -316,6 +323,7 @@ public class MapperScannerConfigurer implements BeanDefinitionRegistryPostProces
       processPropertyPlaceHolders();
     }
 
+    // 扫描mapper接口, 添加到注册表中
     ClassPathMapperScanner scanner = new ClassPathMapperScanner(registry);
     scanner.setAddToConfig(this.addToConfig);
     scanner.setAnnotationClass(this.annotationClass);

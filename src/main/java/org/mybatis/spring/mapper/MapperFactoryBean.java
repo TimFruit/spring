@@ -51,6 +51,9 @@ import org.springframework.beans.factory.FactoryBean;
  *
  * @see SqlSessionTemplate
  */
+
+// 继承SqlSessionDaoSupport, 在setter中传入SqlSessionFactory, 会构造sqlSessionTemplate ,
+  // sqlSessionTemplate会动态生成sqlSession代理类, 该代理类会从spring事务管理器中获取对应的sqlSession
 public class MapperFactoryBean<T> extends SqlSessionDaoSupport implements FactoryBean<T> {
 
   private Class<T> mapperInterface;
@@ -74,6 +77,7 @@ public class MapperFactoryBean<T> extends SqlSessionDaoSupport implements Factor
 
     notNull(this.mapperInterface, "Property 'mapperInterface' is required");
 
+    // 添加mapper接口到配置中, 添加后会解析mappedStatement
     Configuration configuration = getSqlSession().getConfiguration();
     if (this.addToConfig && !configuration.hasMapper(this.mapperInterface)) {
       try {

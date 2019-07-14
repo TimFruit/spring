@@ -132,6 +132,8 @@ public class SqlSessionTemplate implements SqlSession, DisposableBean {
     this.sqlSessionFactory = sqlSessionFactory;
     this.executorType = executorType;
     this.exceptionTranslator = exceptionTranslator;
+
+    // 使用jdk动态代理, 生成对应的sqlSession代理类 , 用于spring事务管理
     this.sqlSessionProxy = (SqlSession) newProxyInstance(
         SqlSessionFactory.class.getClassLoader(),
         new Class[] { SqlSession.class },
@@ -416,6 +418,8 @@ public class SqlSessionTemplate implements SqlSession, DisposableBean {
   //This method forces spring disposer to avoid call of SqlSessionTemplate.close() which gives UnsupportedOperationException
   }
 
+
+  // 实现了新的sqlSession代理方法, 用于spring的事务管理
     /**
    * Proxy needed to route MyBatis method calls to the proper SqlSession got
    * from Spring's Transaction Manager
