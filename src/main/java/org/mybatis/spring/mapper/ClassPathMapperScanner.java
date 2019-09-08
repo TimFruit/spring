@@ -174,7 +174,7 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
     if (beanDefinitions.isEmpty()) {
       LOGGER.warn(() -> "No MyBatis mapper was found in '" + Arrays.toString(basePackages) + "' package. Please check your configuration.");
     } else {
-      processBeanDefinitions(beanDefinitions);
+      processBeanDefinitions(beanDefinitions); // 处理bean定义, 将Mapper interface注册成对应的MapperFactoryBean
     }
 
     return beanDefinitions;

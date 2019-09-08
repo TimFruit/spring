@@ -36,6 +36,9 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
 /**
+ *
+ * 主要是用于解析@MapperScan()对应的值  
+ *
  * A {@link ImportBeanDefinitionRegistrar} to allow annotation configuration of
  * MyBatis mapper scanning. Using an @Enable annotation allows beans to be
  * registered via @Component configuration, whereas implementing

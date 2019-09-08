@@ -336,6 +336,8 @@ public class MapperScannerConfigurer implements BeanDefinitionRegistryPostProces
     scanner.setBeanNameGenerator(this.nameGenerator);
     scanner.setMapperFactoryBeanClass(this.mapperFactoryBeanClass);
     scanner.registerFilters();
+
+    // scan() 内又调用ClassPathMapperScanner#doScan(), 将Mapper接口, 定义成对应的MapperFactoryBean, 注册到spring中
     scanner.scan(StringUtils.tokenizeToStringArray(this.basePackage, ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS));
   }
 

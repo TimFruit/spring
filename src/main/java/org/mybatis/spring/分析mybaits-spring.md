@@ -15,7 +15,7 @@
 
 
 
-1. 构建SqlSessionFactory
+###### 1. 构建SqlSessionFactory
     入口: SqlSessionFactoryBean  implements FactoryBean<SqlSessionFactory>, InitializingBean, ApplicationListener<ApplicationEvent> 
     从类名以及实现接口, 可知, 该类是用于生成SqlSessionFactory
 
@@ -187,6 +187,17 @@
   }
   
 ```
+
+
+
+###### 2. MapperScannerConfigurer, 扫描Mapper interfaces (由@MapperScan指定) , 使用MapperFactoryBean生成对应Mapper (由spring管理)
+
+
+
+
+
+
+
 
 
 

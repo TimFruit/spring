@@ -420,7 +420,7 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
     notNull(sqlSessionFactoryBuilder, "Property 'sqlSessionFactoryBuilder' is required");
     state((configuration == null && configLocation == null) || !(configuration != null && configLocation != null),
               "Property 'configuration' and 'configLocation' can not specified with together");
-
+    // 在这里构建 ...
     this.sqlSessionFactory = buildSqlSessionFactory();
   }
 
