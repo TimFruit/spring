@@ -190,11 +190,36 @@
 
 
 
-###### 2. MapperScannerConfigurer, 扫描Mapper interfaces (由@MapperScan指定) , 使用MapperFactoryBean生成对应Mapper (由spring管理)
+###### 2. MapperScannerConfigurer, 扫描Mapper interfaces (由@MapperScan指定, 或者属性指定) , 使用MapperFactoryBean生成对应Mapper (由spring管理)
 
+```
+  @Override
+  public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) {
+    if (this.processPropertyPlaceHolders) {
+      processPropertyPlaceHolders();
+    }
 
+    // 扫描mapper接口, 添加到注册表中
+    ClassPathMapperScanner scanner = new ClassPathMapperScanner(registry);
+    scanner.setAddToConfig(this.addToConfig);
+    scanner.setAnnotationClass(this.annotationClass);
+    scanner.setMarkerInterface(this.markerInterface);
+    scanner.setSqlSessionFactory(this.sqlSessionFactory);
+    scanner.setSqlSessionTemplate(this.sqlSessionTemplate);
+    scanner.setSqlSessionFactoryBeanName(this.sqlSessionFactoryBeanName);
+    scanner.setSqlSessionTemplateBeanName(this.sqlSessionTemplateBeanName);
+    scanner.setResourceLoader(this.applicationContext);
+    scanner.setBeanNameGenerator(this.nameGenerator);
+    scanner.setMapperFactoryBeanClass(this.mapperFactoryBeanClass);
+    scanner.registerFilters();
 
+    // scan() 内又调用ClassPathMapperScanner#doScan(), 将Mapper接口, 定义成对应的MapperFactoryBean, 注册到spring中
+    scanner.scan(StringUtils.tokenizeToStringArray(this.basePackage, ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS));
+  }
+```
 
+v2.0.1 中MapperScannerRegistrar可以在@MapperScan注解解析之后,调用ClassPathMapperScanner将Mapper接口注册成MapperFactoryBean
+v2.0.2 中MapperScannerRegistrar可以在@MapperScan注解解析之后,定义MapperScannerConfigurer bean, 然后由该bean讲Mapper接口注册成MapperFactoryBean
 
 
 

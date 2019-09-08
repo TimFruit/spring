@@ -37,7 +37,7 @@ import org.springframework.util.StringUtils;
 
 /**
  *
- * 主要是用于解析@MapperScan()对应的值  
+ * 主要是用于解析@MapperScan()对应的值, 然后委托ClassPathMapperScanner将Mapper接口注册成MapperFactoryBean
  *
  * A {@link ImportBeanDefinitionRegistrar} to allow annotation configuration of
  * MyBatis mapper scanning. Using an @Enable annotation allows beans to be
@@ -78,6 +78,7 @@ public class MapperScannerRegistrar implements ImportBeanDefinitionRegistrar, Re
 
   void registerBeanDefinitions(AnnotationAttributes annoAttrs, BeanDefinitionRegistry registry) {
 
+    // 委派给ClassPathMapperScanner将mapper接口注册成MapperFactoryBean
     ClassPathMapperScanner scanner = new ClassPathMapperScanner(registry);
 
     // this check is needed in Spring 3.1
