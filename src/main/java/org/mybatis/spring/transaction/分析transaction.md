@@ -1,5 +1,13 @@
 
 
+// Spring 开启事务之后, 即从数据源获取了connection之后, 会将connection放进TransactionSynchronizationManager管理
+// 内部是使用ThreadLocal保存, 即与当前线程以及datasource绑定 --> ThreadLocal<Map<Object, Object>> resources = new NamedThreadLocal<>("Transactional resources");
+// mybaits使用执行器(Executor)执行时, 会委派给SpringManagedTransaction获取connection , 
+// 而该Transaction是通过DataSourceUtils从TransactionSynchronizationManager获取key为datasource的资源(connection)
+// 
+// spring和mybatis通过TransactionSynchronizationManager交流, 获取同一对应的connection, 进而合作完成事务
+// spring通过connection完成了事务的开启 提交或者回滚操作
+// 而mybatis则使用connection完成事务中sql语句的执行
 
 1. SpringManagedTransaction实现了mybatis的Transaction接口
     SpringManagedTransactionFactory实现了mybatis的TransactionFactory接口, 用于生成SpringManagedTransaction

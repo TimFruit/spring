@@ -35,6 +35,8 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 /**
  * 管理myatis sqlsession生命周期
  *
+ * 将sqlSession注入到TransactionSynchronizationManager(静态方法), 由该类管理, 该类也是和Spring进行事务交流的主要类
+ *
  * 从TransactionSynchronizationManager获取对应的sqlsession
  *
  * Handles MyBatis SqlSession life cycle. It can register and get SqlSessions from
