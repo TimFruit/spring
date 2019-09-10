@@ -30,6 +30,15 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
+ *
+ * 所谓事务, 不过是单独抽出出来的概念,并封装而已.
+ *  从jdbc的角度来说, 是围绕connection来说的, 最主要是
+ *    使用connection设置是否自动提交(开启事务),
+ *    使用connection在当前事务执行多条sql语句,
+ *    是否提交当前事务, 是否回滚当前事务
+ *
+ *  所以, 本事务类也主要封装了connection属性
+ *
  * {@code SpringManagedTransaction} handles the lifecycle of a JDBC connection.
  * It retrieves a connection from Spring's transaction manager and returns it back to it
  * when it is no longer needed.
